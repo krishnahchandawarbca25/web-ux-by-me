@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Gaming Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3), rgba(0, 255, 0, 0.3));
+            animation: neonPulse 10s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes neonPulse {
+            0% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+            100% { opacity: 0.5; transform: scale(1); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00FFFF;
+        }
+
+        h1 {
+            font-size: 3em;
+            font-weight: 900;
+            color: #0f4e0d;
+            text-shadow: 0 0 10px #2a7c63;
+            text-transform: uppercase;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #00FFFF;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #00FFFF;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #FF0000;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            animation: flashGlow 2s ease infinite;
+        }
+
+        @keyframes flashGlow {
+            0% { box-shadow: 0 0 10px #FF0000; }
+            50% { box-shadow: 0 0 20px #FF0000; }
+            100% { box-shadow: 0 0 10px #FF0000; }
+        }
+
+        .hero h2 {
+            font-size: 2em;
+            color: #FF0000;
+            text-shadow: 0 0 10px #FF0000;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            color: #fff;
+        }
+
+        .games {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00FFFF;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px #00FFFF;
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .game-card h3 {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
+
+        .game-card p {
+            font-size: 1em;
+            color: #ccc;
+            margin: 10px 0;
+        }
+
+        .game-card .price {
+            font-size: 1.3em;
+            color: #00FF00;
+            font-weight: 700;
+            text-shadow: 0 0 5px #00FF00;
+        }
+
+        .game-card .badge {
+            display: inline-block;
+            background: #FF0000;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .game-card button {
+            width: 100%;
+            padding: 15px;
+            background: #00FF00;
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .game-card button:hover {
+            background: #00CC00;
+            box-shadow: 0 0 10px #00FF00;
+        }
+
+        .cart, .payment, .download {
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .cart.active, .payment.active, .download.active {
+            display: block;
+        }
+
+        .cart h2, .payment h2, .download h2 {
+            font-size: 2em;
+            color: #FF00FF;
+            text-shadow: 0 0 10px #FF00FF;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .upsell {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #8000FF;
+            border-radius: 8px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.1em;
+            color: #fff;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #00FFFF;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #00FFFF;
+        }
+
+        .trust-badges {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .trust-badges img {
+            width: 50px;
+            margin: 0 10px;
+        }
+
+        .download a {
+            display: block;
+            padding: 15px;
+            background: #00FFFF;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: box-shadow 0.3s;
+        }
+
+        .download a:hover {
+            box-shadow: 0 0 10px #00FFFF;
+        }
+
+        .social-share {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-share button {
+            background: #8000FF;
+            color: #fff;
+        }
+
+        .social-share button:hover {
+            background: #6600CC;
+            box-shadow: 0 0 10px #8000FF;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .games {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Accessibility */
+        [aria-required="true"]::after {
+            content: ' *';
+            color: #FF0000;
+        }
+
+        :focus {
+            outline: 2px solid #00FF00;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Neon Gaming Store</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search Games..." aria-label="Search Games">
+            </div>
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#games">Games</a>
+                <a href="#deals">Deals</a>
+                <a href="#cart">Cart</a>
+            </nav>
+        </header>
+
+        <div class="hero">
+            <h2>Flash Sale! Up to 50% Off!</h2>
+            <p>Ends in 24 Hours! <span id="timer">23:59:59</span></p>
+        </div>
+
+        <section class="games">
+            <div class="game-card">
+                <img src="https://via.placeholder.com/200" alt="Hades">
+                <h3>Hades</h3>
+                <p>Epic Rogue-like Adventure! 4.9/5 Stars (10k+ Reviews)</p>
+                <p class="price">$6.24 <span style="color: #ccc; text-decoration: line-through;">$24.99</span> (75% Off!)</p>
+                <span class="badge">Best Seller</span>
+                <button onclick="addToCart('Hades', 6.24)">Buy Now</button>
+            </div>
+            <div class="game-card">
+                <img src="https://via.placeholder.com/200" alt="Helldivers 2">
+                <h3>Helldivers 2</h3>
+                <p>Intense Co-op Shooter! 4.8/5 Stars</p>
+                <p class="price">$31.99 <span style="color: #ccc; text-decoration: line-through;">$39.99</span></p>
+                <span class="badge">Only 100 Left!</span>
+                <button onclick="addToCart('Helldivers 2', 31.99)">Add to Cart</button>
+            </div>
+            <div class="game-card">
+                <img src="https://via.placeholder.com/200" alt="Stellar Blade">
+                <h3>Stellar Blade</h3>
+                <p>Action-Packed Sci-Fi! 4.7/5</p>
+                <p class="price">$47.99</p>
+                <span class="badge">Trending Now!</span>
+                <button onclick="addToCart('Stellar Blade', 47.99)">Buy Now</button>
+            </div>
+            <div class="game-card">
+                <img src="https://via.placeholder.com/200" alt="DOOM: The Dark Ages">
+                <h3>DOOM: The Dark Ages</h3>
+                <p>Brutal FPS Action! 4.9/5</p>
+                <p class="price">$46.89 (Pre-Order)</p>
+                <span class="badge">Early Access!</span>
+                <button onclick="addToCart('DOOM: The Dark Ages', 46.89)">Pre-Order</button>
+            </div>
+            <div class="game-card">
+                <img src="https://via.placeholder.com/200" alt="Silent Hill f">
+                <h3>Silent Hill f</h3>
+                <p>Horror Masterpiece! 4.6/5</p>
+                <p class="price">$52.49</p>
+                <span class="badge">90% Recommended</span>
+                <button onclick="addToCart('Silent Hill f', 52.49)">Buy Now</button>
+            </div>
+        </section>
+
+        <section class="cart" id="cart">
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="upsell">Add Popular DLC for Only $4.99!</div>
+            <button onclick="showPayment()">Proceed to Payment</button>
+        </section>
+
+        <section class="payment" id="payment">
+            <h2>Secure Checkout</h2>
+            <div class="form-group">
+                <label for="card">Card Number</label>
+                <input type="text" id="card" placeholder="1234 5678 9012 3456" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="expiry">Expiry Date</label>
+                <input type="text" id="expiry" placeholder="MM/YY" required aria-required="true">
+            </div>
+            <div class="trust-badges">
+                <img src="https://via.placeholder.com/50" alt="Secure Payment">
+                <img src="https://via.placeholder.com/50" alt="Money Back Guarantee">
+            </div>
+            <button onclick="showDownload()">Pay Now</button>
+        </section>
+
+        <section class="download" id="download">
+            <h2>Purchase Complete!</h2>
+            <p>Enjoy your game! Rate your purchase for a chance to win free games!</p>
+            <a href="https://store.steampowered.com/app/12345" target="_blank">Download Now</a>
+            <div class="social-share">
+                <button>Share with Friends</button>
+            </div>
+        </section>
+
+        <footer>
+            <p style="text-align: center; padding: 20px; color: #ccc;">About | Contact | Privacy</p>
+        </footer>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(game, price) {
+            cart.push({ game, price });
+            updateCart();
+            document.getElementById('cart').classList.add('active');
+            document.querySelector('.games').style.display = 'none';
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price;
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.textContent = `${item.game}: $${item.price.toFixed(2)}`;
+                cartItems.appendChild(div);
+            });
+            const totalDiv = document.createElement('div');
+            totalDiv.className = 'cart-item';
+            totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+            cartItems.appendChild(totalDiv);
+        }
+
+        function showPayment() {
+            document.getElementById('cart').classList.remove('active');
+            document.getElementById('payment').classList.add('active');
+        }
+
+        function showDownload() {
+            document.getElementById('payment').classList.remove('active');
+            document.getElementById('download').classList.add('active');
+        }
+
+        // Countdown Timer (simulated)
+        let time = 86400; // 24 hours in seconds
+        setInterval(() => {
+            time--;
+            const hours = Math.floor(time / 3600);
+            const minutes = Math.floor((time % 3600) / 60);
+            const seconds = time % 60;
+            document.getElementById('timer').textContent = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    </script>
+</body>
+</html>

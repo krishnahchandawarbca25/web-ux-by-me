@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Pass Membership</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://source.unsplash.com/random/1920x1080/?gym,weights,fitness') no-repeat center center/cover;
+            background-blend-mode: overlay;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 69, 58, 0.4), rgba(0, 0, 0, 0.5), rgba(255, 215, 0, 0.4), rgba(0, 128, 128, 0.4));
+            animation: gymPulse 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gymPulse {
+            0% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.05); }
+            100% { opacity: 0.7; transform: scale(1); }
+        }
+
+        .container {
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            margin: 20px;
+            animation: powerLift 1s ease-in-out;
+            border: 1px solid rgba(255, 69, 58, 0.5);
+            color: #fff;
+        }
+
+        @keyframes powerLift {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff453a;
+            margin-bottom: 30px;
+            font-size: 2.8em;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 1.2em;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 69, 58, 0.5);
+            border-radius: 10px;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff453a;
+            box-shadow: 0 0 10px rgba(255, 69, 58, 0.5);
+        }
+
+        input::placeholder, select::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        #price-display {
+            text-align: center;
+            font-size: 1.6em;
+            color: #ffd700;
+            margin: 20px 0;
+            font-weight: 700;
+            display: none;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff453a, #d32f2f);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 69, 58, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        button:focus {
+            outline: 2px solid #ffd700;
+            outline-offset: 2px;
+        }
+
+        .success-message {
+            text-align: center;
+            font-size: 2.2em;
+            color: #ffd700;
+            margin-top: 20px;
+            display: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            animation: successPulse 2s ease-in-out;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes successPulse {
+            0% { opacity: 0; transform: scale(0.9); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .step-indicator div {
+            width: 33%;
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .step-indicator div.active {
+            background: rgba(255, 69, 58, 0.5);
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            button {
+                padding: 15px;
+                font-size: 1em;
+            }
+
+            .success-message {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Accessibility Enhancements */
+        [aria-required="true"]::after {
+            content: ' *';
+            color: #ff453a;
+        }
+
+        :focus {
+            outline: 2px solid #ffd700;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gym Pass Membership</h1>
+        <div class="step-indicator">
+            <div class="active">1. Details</div>
+            <div>2. Payment</div>
+            <div>3. Confirm</div>
+        </div>
+
+        <!-- Step 1: Personal Details and Membership Level -->
+        <form id="membership-form" aria-label="Gym Pass Membership Enrollment">
+            <div class="step active" id="step1">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required aria-required="true" aria-label="Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" placeholder="Enter your mobile number" required aria-required="true" aria-label="Mobile Number">
+                </div>
+                <div class="form-group">
+                    <label for="level">Membership Level</label>
+                    <select id="level" required aria-required="true" aria-label="Select Membership Level">
+                        <option value="">Select a level</option>
+                        <option value="pro">Pro ($5/month)</option>
+                        <option value="elite">Elite ($7/month)</option>
+                        <option value="elite-plus">Elite Plus ($10/month)</option>
+                        <option value="elite-pro-plus">Elite Pro Plus ($12/month)</option>
+                    </select>
+                </div>
+                <p id="price-display">Price: $0</p>
+                <button type="button" onclick="showStep(2)" aria-label="Proceed to Payment">Proceed to Payment</button>
+            </div>
+
+            <!-- Step 2: Payment Details -->
+            <div class="step" id="step2">
+                <div class="form-group">
+                    <label for="card">Card Number</label>
+                    <input type="text" id="card" placeholder="1234 5678 9012 3456" required aria-required="true" aria-label="Card Number">
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" placeholder="123" required aria-required="true" aria-label="CVV">
+                </div>
+                <div class="form-group">
+                    <label for="pin">PIN</label>
+                    <input type="password" id="pin" placeholder="Enter PIN" required aria-required="true" aria-label="PIN">
+                </div>
+                <button type="button" onclick="showStep(3)" aria-label="Review and Confirm">Review and Confirm</button>
+            </div>
+
+            <!-- Step 3: Confirmation -->
+            <div class="step" id="step3">
+                <p>Review your details and confirm your premium gym membership.</p>
+                <button type="button" onclick="confirmMembership()" aria-label="Confirm Membership">Confirm</button>
+            </div>
+        </form>
+
+        <div class="success-message" id="success" role="alert">Membership Activated!</div>
+    </div>
+
+    <script>
+        const prices = {
+            pro: 5,
+            elite: 7,
+            'elite-plus': 10,
+            'elite-pro-plus': 12
+        };
+
+        document.getElementById('level').addEventListener('change', function() {
+            const selected = this.value;
+            const display = document.getElementById('price-display');
+            if (selected) {
+                display.textContent = `Price: $${prices[selected]}/month`;
+                display.style.display = 'block';
+            } else {
+                display.style.display = 'none';
+            }
+        });
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.step-indicator div').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelector(`.step-indicator div:nth-child(${step})`).classList.add('active');
+        }
+
+        function confirmMembership() {
+            document.getElementById('membership-form').style.display = 'none';
+            document.getElementById('success').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS-Inspired Checkout Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e90ff, #ff2e63);
+            background-size: 200%;
+            animation: macGradient 10s ease infinite;
+        }
+
+        @keyframes macGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            margin: 20px;
+            animation: slideIn 0.5s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            color: #1d1d1f;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.5);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #007aff;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            background: #005bb5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .product img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+        }
+
+        .product h3 {
+            font-size: 18px;
+            color: #1d1d1f;
+        }
+
+        .product p {
+            font-size: 14px;
+            color: #6e6e73;
+        }
+
+        .summary {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #1d1d1f;
+        }
+
+        .summary h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .summary p {
+            margin: 5px 0;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .step-indicator div {
+            width: 33%;
+            text-align: center;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #1d1d1f;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .step-indicator div.active {
+            background: #007aff;
+            color: white;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 16px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .product img {
+                width: 60px;
+                height: 60px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+        <div class="step-indicator">
+            <div class="active">1. Cart</div>
+            <div>2. Details</div>
+            <div>3. Review</div>
+        </div>
+
+        <!-- Step 1: Add Item to Cart -->
+        <div class="step active" id="step1">
+            <div class="product">
+                <img src="https://via.placeholder.com/80" alt="Product Image">
+                <div>
+                    <h3>Blue T-Shirt</h3>
+                    <p>$19.99</p>
+                </div>
+            </div>
+            <button onclick="showStep(2)">Add to Cart</button>
+        </div>
+
+        <!-- Step 2: Shipping and Payment Details -->
+        <div class="step" id="step2">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Shipping Address</label>
+                <input type="text" id="address" placeholder="Enter your address" required>
+            </div>
+            <div class="form-group">
+                <label for="card">Credit Card Number</label>
+                <input type="text" id="card" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <button onclick="showStep(3)">Continue</button>
+        </div>
+
+        <!-- Step 3: Review and Confirm -->
+        <div class="step" id="step3">
+            <div class="summary">
+                <h3>Order Summary</h3>
+                <p>Item: Blue T-Shirt</p>
+                <p>Price: $19.99</p>
+                <p>Shipping: Standard ($5.00)</p>
+                <p>Total: $24.99</p>
+            </div>
+            <button onclick="alert('Order Confirmed!')">Confirm Purchase</button>
+        </div>
+    </div>
+
+    <script>
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.step-indicator div').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelector(`.step-indicator div:nth-child(${step})`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
